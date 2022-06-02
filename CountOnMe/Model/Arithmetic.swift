@@ -7,12 +7,12 @@
 //
 
 import Foundation
-import UIKit
 
 class Arithmetic {
     
     // MARK: - Properties
     
+    var calculationDelegate: ArithmeticDelegate?
     var calculationDisplayArea: String = "0"
     
     private var elements: [String] {
@@ -38,6 +38,10 @@ class Arithmetic {
     
     // MARK: - Calculation functions
     
+    func clearCalculation() {
+        calculationDisplayArea = "0"
+    }
+    
     func addNumberTyped(_ number: String) {
         if expressionHaveResult {
             calculationDisplayArea = ""
@@ -45,17 +49,9 @@ class Arithmetic {
         calculationDisplayArea.append(number)
     }
     
-    func addOperandTyped(_ operandButton: UIButton) {
-        var operand = ""
+    func addOperandTyped(_ operandButton: String) {
         if canAddOperator {
-            switch operandButton.tag {
-            case 0: operand = " + "
-            case 1: operand = " - "
-            case 2: operand = " x "
-            case 3: operand = " ÷ "
-            default: fatalError("Unknown operator !")
-            }
-            calculationDisplayArea.append(operand)
+            calculationDisplayArea.append(operandButton)
         } else {
             
         }

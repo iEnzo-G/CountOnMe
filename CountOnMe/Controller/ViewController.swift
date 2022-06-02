@@ -13,7 +13,6 @@ class ViewController: UIViewController {
     // MARK: - Outlets
     
     @IBOutlet weak var calculationTextView: UITextView!
-    @IBOutlet var numberButtons: [UIButton]!
     @IBOutlet var operatorButtons: [UIButton]!
     
     // MARK: - Properties
@@ -24,19 +23,13 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        allClear()
     }
     
     // MARK: - Actions
     
-    private func allClear() {
-        calculationTextView.text = "0"
-        arithmetic.calculationDisplayArea = "0"
-        operatorButtonsDefaultColor()
-    }
-    
     @IBAction func tappedAllClearButton(_ sender: UIButton) {
-        allClear()
+        arithmetic.clearCalculation()
+        operatorButtonsDefaultColor()
     }
     
     @IBAction func tappedNumberButton(_ sender: UIButton) {
@@ -44,40 +37,31 @@ class ViewController: UIViewController {
             return
         }
         arithmetic.addNumberTyped(numberText)
-        calculationTextView.text = arithmetic.calculationDisplayArea
     }
     
     @IBAction func tappedOperatorButton(_ sender: UIButton) {
-        guard arithmetic.canAddOperator else {
-            return operandAlreadySetAlert()
-        }
         operatorButtonsDefaultColor()
         sender.isSelected = true
         sender.backgroundColor = .white
         sender.setTitleColor(UIColor(named: "Orange"), for: .selected)
-        arithmetic.addOperandTyped(sender)
-        calculationTextView.text = arithmetic.calculationDisplayArea
+        
+        var operand: String
+        switch sender.tag {
+        case 0: operand = " + "
+        case 1: operand = " - "
+        case 2: operand = " x "
+        case 3: operand = " ÷ "
+        default: fatalError("Unknow Operator")
+        }
+        arithmetic.addOperandTyped(operand)
     }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard arithmetic.expressionIsCorrect else {
-           return incorrectExpressionAlert()
-        }
-        guard arithmetic.expressionHaveEnoughElement else {
-            return incompleteCalculationAlert()
-        }
         operatorButtonsDefaultColor()
-        calculationTextView.text = arithmetic.displayResult()
     }
     
     @IBAction func tappedPercentButton(_ sender: UIButton) {
-        guard arithmetic.expressionIsCorrect else {
-           return incorrectExpressionAlert()
-        }
-        guard arithmetic.canAddOperator else {
-            return operandAlreadySetAlert()
-        }
-//        calculationTextView.text = arithmetic.displayPercent()
+        
     }
     
     @IBAction func tappedRelativeNumber(_ sender: UIButton) {
@@ -85,23 +69,23 @@ class ViewController: UIViewController {
     
     // MARK: - AlertController functions
     
-    func operandAlreadySetAlert() {
-        let alertVC = UIAlertController(title: "Error", message: "Operator already set", preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        self.present(alertVC, animated: true, completion: nil)
-    }
-    
-    func incorrectExpressionAlert() {
-        let alertVC = UIAlertController(title: "Error", message: "Incorrect expression", preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        return self.present(alertVC, animated: true, completion: nil)
-    }
-    
-    func incompleteCalculationAlert() {
-        let alertVC = UIAlertController(title: "Error", message: "Incomplete calculation !", preferredStyle: .alert)
-        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        return self.present(alertVC, animated: true, completion: nil)
-    }
+//    func operandAlreadySetAlert() {
+//        let alertVC = UIAlertController(title: "Error", message: "Operator already set", preferredStyle: .alert)
+//        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+//        self.present(alertVC, animated: true, completion: nil)
+//    }
+//
+//    func incorrectExpressionAlert() {
+//        let alertVC = UIAlertController(title: "Error", message: "Incorrect expression", preferredStyle: .alert)
+//        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+//        return self.present(alertVC, animated: true, completion: nil)
+//    }
+//
+//    func incompleteCalculationAlert() {
+//        let alertVC = UIAlertController(title: "Error", message: "Incomplete calculation !", preferredStyle: .alert)
+//        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+//        return self.present(alertVC, animated: true, completion: nil)
+//    }
     
     // MARK: - Other functions
     
@@ -112,4 +96,14 @@ class ViewController: UIViewController {
     }
     
 }
+    
+    // MARK: - Extension
 
+//extension ViewController: ArithmeticDelegate {
+//    func showAlert() {
+//        <#code#>
+//    }
+//    func actualizeCalculationTextView() {
+//        <#code#>
+//    }
+//}

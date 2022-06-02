@@ -268,7 +268,7 @@
                                 </subviews>
                             </stackView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="0" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB">
-                                <rect key="frame" x="25" y="324" width="364" height="98"/>
+                                <rect key="frame" x="25" y="54" width="364" height="368"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="70"/>
@@ -283,7 +283,7 @@
                             <constraint firstItem="cqt-UE-mTt" firstAttribute="top" secondItem="T2H-yn-nBB" secondAttribute="bottom" constant="15" id="b9W-hm-e56"/>
                             <constraint firstItem="AWJ-Vl-uau" firstAttribute="bottom" secondItem="cqt-UE-mTt" secondAttribute="bottom" constant="30" id="bCB-LP-yjb"/>
                             <constraint firstItem="T2H-yn-nBB" firstAttribute="centerX" secondItem="eIh-hr-C95" secondAttribute="centerX" id="erV-zP-Xcl"/>
-                            <constraint firstItem="T2H-yn-nBB" firstAttribute="top" secondItem="AWJ-Vl-uau" secondAttribute="top" constant="280" id="gRf-pX-BUf"/>
+                            <constraint firstItem="T2H-yn-nBB" firstAttribute="top" secondItem="AWJ-Vl-uau" secondAttribute="top" constant="10" id="gRf-pX-BUf"/>
                             <constraint firstItem="cqt-UE-mTt" firstAttribute="leading" secondItem="AWJ-Vl-uau" secondAttribute="leading" constant="25" id="juY-pO-evc"/>
                             <constraint firstItem="T2H-yn-nBB" firstAttribute="leading" secondItem="AWJ-Vl-uau" secondAttribute="leading" constant="25" id="rZC-TC-9tn"/>
                             <constraint firstItem="AWJ-Vl-uau" firstAttribute="trailing" secondItem="cqt-UE-mTt" secondAttribute="trailing" constant="25" id="u2i-0s-eUY"/>
@@ -292,19 +292,10 @@
                     </view>
                     <connections>
                         <outlet property="calculationTextView" destination="T2H-yn-nBB" id="yqe-Yo-Sag"/>
-                        <outletCollection property="numberButtons" destination="S66-ub-JAX" collectionClass="NSMutableArray" id="2lv-EY-kZ4"/>
-                        <outletCollection property="numberButtons" destination="jd7-ld-hSU" collectionClass="NSMutableArray" id="U3Z-si-yYe"/>
                         <outletCollection property="operatorButtons" destination="nrC-7d-8hk" collectionClass="NSMutableArray" id="iuV-Q7-XDE"/>
                         <outletCollection property="operatorButtons" destination="3zr-HC-0N9" collectionClass="NSMutableArray" id="BNA-Uc-sEY"/>
                         <outletCollection property="operatorButtons" destination="Ias-yy-orA" collectionClass="NSMutableArray" id="D6B-dr-Y0x"/>
                         <outletCollection property="operatorButtons" destination="DQU-P5-55X" collectionClass="NSMutableArray" id="6Hq-IJ-nQd"/>
-                        <outletCollection property="numberButtons" destination="W04-n1-Wen" collectionClass="NSMutableArray" id="F9G-eA-4ij"/>
-                        <outletCollection property="numberButtons" destination="tMJ-tH-k5u" collectionClass="NSMutableArray" id="bHm-EG-hSS"/>
-                        <outletCollection property="numberButtons" destination="Raa-av-x4n" collectionClass="NSMutableArray" id="P52-Zx-bMS"/>
-                        <outletCollection property="numberButtons" destination="EPx-3X-zTa" collectionClass="NSMutableArray" id="tmM-9D-IHt"/>
-                        <outletCollection property="numberButtons" destination="lad-SR-mqj" collectionClass="NSMutableArray" id="0dq-6F-JO8"/>
-                        <outletCollection property="numberButtons" destination="Hkr-13-i1X" collectionClass="NSMutableArray" id="Cn1-3U-qap"/>
-                        <outletCollection property="numberButtons" destination="UDN-zf-T0y" collectionClass="NSMutableArray" id="EsS-4s-VvX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7XP-3c-sJZ" sceneMemberID="firstResponder"/>
