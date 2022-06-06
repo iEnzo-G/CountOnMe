@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ArithmeticDelegate: Arithmetic {
-    func showAlert()
-    func actualizeCalculationTextView()
+protocol ArithmeticDelegate {
+    func throwAlert(message: String)
+    func updateScreen(calculText: String)
 }

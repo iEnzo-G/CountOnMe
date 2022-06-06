@@ -12,96 +12,104 @@ class Arithmetic {
     
     // MARK: - Properties
     
-    var calculationDelegate: ArithmeticDelegate?
-    var calculationDisplayArea: String = "0"
-    
-    private var elements: [String] {
-        return calculationDisplayArea.split(separator: " ").map { "\($0)" }
+    var delegate: ArithmeticDelegate?
+    var calculText: String = "0" {
+        didSet {
+            delegate?.updateScreen(calculText: calculText)
+        }
     }
     
-    // Error check computed variables
-    var expressionIsCorrect: Bool {
+    private var elements: [String] {
+        return calculText.split(separator: " ").map { "\($0)" }
+    }
+    
+    private var expressionIsCorrect: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "÷" && elements.last != "x"
     }
     
-    var expressionHaveEnoughElement: Bool {
+    private var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
     
-    var canAddOperator: Bool {
+    private var canAddOperator: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "÷" && elements.last != "x"
     }
     
     private var expressionHaveResult: Bool {
-        return calculationDisplayArea.firstIndex(of: "=") != nil
+        return calculText.firstIndex(of: "=") != nil
     }
     
     // MARK: - Calculation functions
     
     func clearCalculation() {
-        calculationDisplayArea = "0"
+        calculText = "0"
     }
     
     func addNumberTyped(_ number: String) {
         if expressionHaveResult {
-            calculationDisplayArea = ""
+            calculText = ""
         }
-        calculationDisplayArea.append(number)
+        if calculText == "0" {
+            calculText.removeAll()
+        }
+        calculText.append(number)
     }
     
-    func addOperandTyped(_ operandButton: String) {
-        if canAddOperator {
-            calculationDisplayArea.append(operandButton)
-        } else {
-            
-        }
-    }
-    
-    func displayResult() -> String {
+    func addOperandTyped(_ operand: String) {
         
-        // Create local copy of operations
+        if canAddOperator {
+            switch operand {
+            case "+": calculText.append(" + ")
+            case "-": calculText.append(" - ")
+            case "x": calculText.append(" x ")
+            case "÷": calculText.append(" ÷ ")
+            default: break
+            }
+        } else {
+            delegate?.throwAlert(message: "Operator already set.")
+        }
+    }
+    
+    func displayResult() -> ()? {
+        guard expressionIsCorrect else {
+            return delegate?.throwAlert(message: "Please enter a correct expression.") }
+       guard expressionHaveEnoughElement else {
+           return delegate?.throwAlert(message: "Incomplete calculation.") }
+        
         var operationsToReduce = elements
         
-        // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
             let left = Int(operationsToReduce[0])!
             let operand = operationsToReduce[1]
             let right = Int(operationsToReduce[2])!
             
             if operand == "÷" && right == 0 {
-                return "Error"
+                calculText = "Error"
+                break
             }
             
-            let result: Int
+            var result = 0
             switch operand {
             case "+": result = left + right
             case "-": result = left - right
             case "÷": result = left / right
             case "x": result = left * right
-            default: fatalError("Unknown operator !")
+            default: break
             }
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result)", at: 0)
         }
-        calculationDisplayArea = "\(operationsToReduce.first!)"
-        return calculationDisplayArea
+        calculText = "\(operationsToReduce.first!)"
     }
     
-//    func displayPercent() -> String {
-//        var operationsToPercent = elements
-//        let number = Float(operationsToPercent[0])!
-//
-//        let result = number * 0.01
-//        operationsToPercent = Array(operationsToPercent.dropFirst(3))
-//        operationsToPercent.insert("\(result)", at: 0)
-//        calculationDisplayArea = "\(operationsToPercent.first!)"
-//        return calculationDisplayArea
-//    }
-    
-}
-
-extension Float {
-    var clean: String {
-       return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
+    func displayPercent() {
+        var operationsToPercent = elements
+        let number = Float(operationsToPercent[0])!
+        
+        let result = number * 0.01
+        operationsToPercent = Array(operationsToPercent.dropFirst(3))
+        operationsToPercent.insert("\(result)", at: 0)
+        calculText = "\(operationsToPercent.first!)"
     }
+    
 }

@@ -6,13 +6,12 @@
 //  Copyright © 2022 Vincent Saluzzo. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-extension UIView {
+extension UIViewController {
     func showAlert(message: String) {
         let alertVC = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-//        present(alertVC, animated: true, completion: nil)
+        self.present(alertVC, animated: true, completion: nil)
     }
 }
