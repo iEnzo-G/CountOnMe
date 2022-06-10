@@ -24,9 +24,19 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         arithmetic.delegate = self
+        
+        calculationTextView.addGestureRecognizer(swipeGesture(for: .left))
+        calculationTextView.addGestureRecognizer(swipeGesture(for: .right))
     }
     
     // MARK: - Actions
+    
+    /// Use a swipe to remove the last button tapped on the calculation.
+    private func swipeGesture(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
+        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(removeLastString))
+        swipeGesture.direction = direction
+        return swipeGesture
+    }
     
     @IBAction func tappedAllClearButton(_ sender: UIButton) {
         arithmetic.clearCalculation()
@@ -34,24 +44,29 @@ class ViewController: UIViewController {
     
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else { return }
-        arithmetic.addNumberTyped(numberText)
+        arithmetic.addTappedNumber(numberText)
     }
     
     @IBAction func tappedOperatorButton(_ sender: UIButton) {
         guard let titleButton = sender.title(for: .normal) else { return }
-        arithmetic.addOperandTyped(titleButton)
+        arithmetic.addTappedOperand(titleButton)
     }
     
+    @objc func removeLastString() {
+        arithmetic.removeLastString()
+    }
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         arithmetic.displayResult()
     }
     
     @IBAction func tappedPercentButton(_ sender: UIButton) {
-        
+        arithmetic.displayPercent()
     }
     
-    @IBAction func tappedRelativeNumber(_ sender: UIButton) {
+    @IBAction func tappedDotButton(_ sender: UIButton) {
+        arithmetic.addDot()
     }
+    
 }
 // MARK: - Extension
 
