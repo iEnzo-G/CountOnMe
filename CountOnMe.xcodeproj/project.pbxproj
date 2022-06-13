@@ -13,7 +13,7 @@
 		1FA43BDA224E569A00F565CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BD9224E569A00F565CB /* Assets.xcassets */; };
 		1FA43BDD224E569A00F565CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FA43BDB224E569A00F565CB /* LaunchScreen.storyboard */; };
 		542724F5283F844000A830BB /* Arithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542724F4283F844000A830BB /* Arithmetic.swift */; };
-		54C2E3D128483B6F008E6014 /* ArithmeticDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C2E3D028483B6F008E6014 /* ArithmeticDelegate.swift */; };
+		54C2E3D128483B6F008E6014 /* NotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C2E3D028483B6F008E6014 /* NotificationDelegate.swift */; };
 		54C2E3D32848BEAF008E6014 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C2E3D22848BEAF008E6014 /* UIViewController+Alert.swift */; };
 		54C2E3DB2848C248008E6014 /* CalculationTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54C2E3DA2848C248008E6014 /* CalculationTestCase.swift */; };
 /* End PBXBuildFile section */
@@ -37,7 +37,7 @@
 		1FA43BDC224E569A00F565CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1FA43BDE224E569A00F565CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		542724F4283F844000A830BB /* Arithmetic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arithmetic.swift; sourceTree = "<group>"; };
-		54C2E3D028483B6F008E6014 /* ArithmeticDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArithmeticDelegate.swift; sourceTree = "<group>"; };
+		54C2E3D028483B6F008E6014 /* NotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDelegate.swift; sourceTree = "<group>"; };
 		54C2E3D22848BEAF008E6014 /* UIViewController+Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		54C2E3D82848C248008E6014 /* CountOnMeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountOnMeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		54C2E3DA2848C248008E6014 /* CalculationTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationTestCase.swift; sourceTree = "<group>"; };
@@ -95,7 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				542724F4283F844000A830BB /* Arithmetic.swift */,
-				54C2E3D028483B6F008E6014 /* ArithmeticDelegate.swift */,
+				54C2E3D028483B6F008E6014 /* NotificationDelegate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -236,7 +236,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54C2E3D128483B6F008E6014 /* ArithmeticDelegate.swift in Sources */,
+				54C2E3D128483B6F008E6014 /* NotificationDelegate.swift in Sources */,
 				54C2E3D32848BEAF008E6014 /* UIViewController+Alert.swift in Sources */,
 				542724F5283F844000A830BB /* Arithmetic.swift in Sources */,
 				1FA43BD5224E569900F565CB /* ViewController.swift in Sources */,

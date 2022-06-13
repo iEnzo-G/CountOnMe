@@ -70,7 +70,7 @@ class ViewController: UIViewController {
 }
 // MARK: - Extension
 
-extension ViewController: ArithmeticDelegate {
+extension ViewController: NotificationDelegate {
     func throwAlert(message: String) {
         showAlert(message: message)
     }
@@ -79,4 +79,3 @@ extension ViewController: ArithmeticDelegate {
         calculationTextView.text = calculText
     }
 }
-

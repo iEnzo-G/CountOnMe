@@ -14,7 +14,7 @@ class Arithmetic {
     
     let formatter = NumberFormatter()
     
-    var delegate: ArithmeticDelegate?
+    var delegate: NotificationDelegate?
     var calculText: String = "" {
         didSet {
             delegate?.updateScreen(calculText: calculText)
@@ -44,9 +44,15 @@ class Arithmetic {
     
     // MARK: - Calculation functions
     
+    private func initCalculText() {
+        if calculText == "" {
+            calculText = "0"
+        }
+    }
+    
     private func numberFormatter() {
-            formatter.numberStyle = .none
-            formatter.maximumFractionDigits = 2
+        formatter.numberStyle = .none
+        formatter.maximumFractionDigits = 2
     }
     
     func clearCalculation() {
@@ -66,9 +72,9 @@ class Arithmetic {
     func addTappedOperand(_ operand: String) {
         if calculText == "Error" {
             delegate?.throwAlert(message: "Tap a number at first.")
-            clearCalculation()
             return
         }
+        initCalculText()
         if canAddOperator {
             switch operand {
             case "+": calculText.append(" + ")
@@ -86,14 +92,12 @@ class Arithmetic {
         if !expressionIsCorrect {
             calculText.append("0")
         }
-        if calculText == "" {
-            calculText = "0"
-        }
+        initCalculText()
         guard let lastString = elements.last else { return }
         guard !lastString.contains(".") else { return }
-       
+        
         calculText.append(".")
-        }
+    }
     
     func removeLastString() {
         if calculText != "0" && calculText != "" {
@@ -105,9 +109,7 @@ class Arithmetic {
                 }
             }
         }
-        if calculText == "" {
-            calculText = "0"
-        }
+        initCalculText()
     }
     /// The function detect if there are calculation priorities by sending back the operand index.
     private func hasCalculPriority() -> Int? {
@@ -127,6 +129,7 @@ class Arithmetic {
         }
     }
     
+    /// Function to remove priority calculation from the operation.
     private func replacePriorityOperationByResult(_ indexOperand: Int) {
         for _ in 0 ... 2 {
             operationsToReduce.remove(at: indexOperand)
@@ -135,27 +138,28 @@ class Arithmetic {
     
     private func calculOperation(leftIndex: Int, operandIndex: Int,  rightIndex: Int) {
         
-            guard let left = Double(operationsToReduce[leftIndex]) else { return }
-            let operand = operationsToReduce[operandIndex]
-            guard let right = Double(operationsToReduce[rightIndex]) else { return }
-            
-            if operand == "÷" && right == 0 {
-                calculText = "Error"
-                return
-            }
-            
-        var calcul: Double = 0
-            switch operand {
-            case "+": calcul = left + right
-            case "-": calcul = left - right
-            case "÷": calcul = left / right
-            case "x": calcul = left * right
-            default: break
-            }
+        guard let left = Double(operationsToReduce[leftIndex]) else { return }
+        let operand = operationsToReduce[operandIndex]
+        guard let right = Double(operationsToReduce[rightIndex]) else { return }
+        
+        if operand == "÷" && right == 0 {
+            operationsToReduce.removeAll()
+            calculText = "Error"
+            return
+        }
+        
+        var calcul: Double = 0.0
+        switch operand {
+        case "+": calcul = left + right
+        case "-": calcul = left - right
+        case "÷": calcul = left / right
+        case "x": calcul = left * right
+        default: break
+        }
         numberFormatter()
         guard let result = formatter.string(from: NSNumber(value: calcul)) else { return }
-            replacePriorityOperationByResult(operandIndex - 1)
-            operationsToReduce.insert("\(result)", at: operandIndex - 1)
+        replacePriorityOperationByResult(operandIndex - 1)
+        operationsToReduce.insert("\(result)", at: operandIndex - 1)
         calculText = "\(operationsToReduce.first!)"
     }
     
@@ -169,8 +173,8 @@ class Arithmetic {
         
         operationsToReduce = elements
         calculPriorityOperation()
-        if operationsToReduce.count > 2 {
-        calculOperation( leftIndex: 0, operandIndex: 1, rightIndex: 2)
+        while operationsToReduce.count >= 3 {
+            calculOperation( leftIndex: 0, operandIndex: 1, rightIndex: 2)
         }
     }
     
@@ -182,10 +186,10 @@ class Arithmetic {
             displayResult()
         }
         var operationsToPercent = elements
-        guard let number = Float(operationsToPercent[0]) else { return }
+        guard let number = Double(operationsToPercent[0]) else { return }
         
         numberFormatter()
-        guard let result = formatter.string(from: NSNumber(value: number * 0.01)) else { return }
+        guard let result = formatter.string(for: number * 0.01) else { return }
         
         operationsToPercent = Array(operationsToPercent.dropFirst(3))
         operationsToPercent.insert("\(result)", at: 0)

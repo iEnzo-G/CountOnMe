@@ -47,13 +47,13 @@ class CalculationTestCase: XCTestCase {
         setCalculation("6", "+", "2", result: "8")
     }
     
-//    func test_GivenTappedOperandPlusFirst_WhenTappedOnEqualButton_ThenResultIsCorrect() {
-//        tappedOperandFirst("+", "6", "-", "2", "4")
-//    }
+    func test_GivenTappedOperandPlusFirst_WhenTappedOnEqualButton_ThenResultIsCorrect() {
+        tappedOperandFirst("+", "6", "-", "2", "4")
+    }
     
-//    func test_GivenTappedOperandMinusFirst_WhenTappedOnEqualButton_ThenResultIsCorrect() {
-//        tappedOperandFirst("-", "6", "+", "10", "4")
-//    }
+    func test_GivenTappedOperandMinusFirst_WhenTappedOnEqualButton_ThenResultIsCorrect() {
+        tappedOperandFirst("-", "6", "+", "10", "4")
+    }
     
     func test_GivenSubstraction_WhenTappedOnEqualButton_ThenResultIsCorrect(){
         setCalculation("6", "-", "2", result: "4")
@@ -66,27 +66,23 @@ class CalculationTestCase: XCTestCase {
     func test_GivenIncompleteAddition_WhenTappedOnEqualButton_ThenShowAlert(){
         let sut = Arithmetic()
         sut.addTappedNumber("6")
-        sut.displayResult()
-//        XCTAssert(sut.delegate?.throwAlert(message: "Incomplete calculation."))
+//        XCTAssertTrue(sut.spyAlert())
     }
 
     func test_GivenIncorrectExpression_WhenTappedOnEqualButton_ThenShowAlert(){
         let sut = Arithmetic()
         sut.addTappedNumber("6")
         sut.addTappedOperand("+")
-        sut.displayResult()
-//        XCTAssert(sut.delegate?.throwAlert(message: "Please enter a correct expression."))
+//        XCTAssertTrue(sut.spyAlert())
     }
 
     func test_GivenExpression_WhenTappedSuccesivelyTwoOperand_ThenShowAlert(){
         let sut = Arithmetic()
         sut.addTappedNumber("6")
         sut.addTappedOperand("+")
-        sut.addTappedOperand("x")
-//        XCTAssert(sut.delegate?.throwAlert(message: "Operator already set."))
+        sut.addTappedOperand("6")
+//        XCTAssertFalse(sut.spyAlert())
     }
-
-    
     
     func test_GivenMultiplication_WhenTappedOnEqualButton_ThenResultIsCorrect(){
         setCalculation("6", "x", "2", result: "12")
@@ -108,25 +104,7 @@ class CalculationTestCase: XCTestCase {
         sut.clearCalculation()
         XCTAssertEqual(sut.calculText, "0")
     }
-    
-//    func test_GivenMultiplication_WhenCheckPriority_ThenFindIndexInArray() {
-//        let sut = Arithmetic()
-//        sut.addTappedNumber("2")
-//        sut.addTappedOperand("x")
-//        sut.addTappedNumber("2")
-//        XCTAssertEqual(sut.hasCalculPriority(), 1)
-//    }
-//
-//    func test_GivenDivide_WhenCheckPriority_ThenFindIndexInArray() {
-//        let sut = Arithmetic()
-//        sut.addTappedNumber("2")
-//        sut.addTappedOperand("+")
-//        sut.addTappedNumber("2")
-//        sut.addTappedOperand("÷")
-//        sut.addTappedNumber("2")
-//        XCTAssertEqual(sut.hasCalculPriority(), 3)
-//    }
-    
+
     func test_GivenCalculationWithCalculPriority_WhenTappedOnDisplayResult_ThenCalculIsCorrect() {
         let sut = Arithmetic()
         sut.addTappedNumber("2")
