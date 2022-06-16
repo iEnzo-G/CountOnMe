@@ -289,10 +289,6 @@
                     </view>
                     <connections>
                         <outlet property="calculationTextView" destination="T2H-yn-nBB" id="yqe-Yo-Sag"/>
-                        <outletCollection property="operatorButtons" destination="nrC-7d-8hk" collectionClass="NSMutableArray" id="iuV-Q7-XDE"/>
-                        <outletCollection property="operatorButtons" destination="DQU-P5-55X" collectionClass="NSMutableArray" id="6Hq-IJ-nQd"/>
-                        <outletCollection property="operatorButtons" destination="3zr-HC-0N9" collectionClass="NSMutableArray" id="BNA-Uc-sEY"/>
-                        <outletCollection property="operatorButtons" destination="Ias-yy-orA" collectionClass="NSMutableArray" id="D6B-dr-Y0x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7XP-3c-sJZ" sceneMemberID="firstResponder"/>

@@ -13,7 +13,6 @@ class ViewController: UIViewController {
     // MARK: - Outlets
     
     @IBOutlet weak var calculationTextView: UITextView!
-    @IBOutlet var operatorButtons: [UIButton]!
     
     // MARK: - Properties
     
@@ -70,7 +69,7 @@ class ViewController: UIViewController {
 }
 // MARK: - Extension
 
-extension ViewController: NotificationDelegate {
+extension ViewController: UpdateDelegate {
     func throwAlert(message: String) {
         showAlert(message: message)
     }

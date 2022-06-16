@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol NotificationDelegate {
+protocol UpdateDelegate: NSObject {
     func throwAlert(message: String)
     func updateScreen(calculText: String)
 }

@@ -14,7 +14,7 @@ class Arithmetic {
     
     let formatter = NumberFormatter()
     
-    var delegate: NotificationDelegate?
+    weak var delegate: UpdateDelegate?
     var calculText: String = "" {
         didSet {
             delegate?.updateScreen(calculText: calculText)
@@ -38,9 +38,7 @@ class Arithmetic {
         return elements.last != "+" && elements.last != "-" && elements.last != "÷" && elements.last != "x"
     }
     
-    private var expressionHaveResult: Bool {
-        return calculText.firstIndex(of: "=") != nil
-    }
+    private var expressionHaveResult: Bool = false
     
     // MARK: - Calculation functions
     
@@ -61,6 +59,7 @@ class Arithmetic {
     
     func addTappedNumber(_ number: String) {
         if expressionHaveResult {
+            expressionHaveResult = false
             calculText = ""
         }
         if calculText == "0" || calculText == "Error" {
@@ -74,6 +73,7 @@ class Arithmetic {
             delegate?.throwAlert(message: "Tap a number at first.")
             return
         }
+        expressionHaveResult = false
         initCalculText()
         if canAddOperator {
             switch operand {
@@ -99,6 +99,7 @@ class Arithmetic {
         calculText.append(".")
     }
     
+    /// Function allows user to go back in the calculation.
     func removeLastString() {
         if calculText != "0" && calculText != "" {
             if expressionIsCorrect {
@@ -112,7 +113,7 @@ class Arithmetic {
         initCalculText()
     }
     /// The function detect if there are calculation priorities by sending back the operand index.
-    private func hasCalculPriority() -> Int? {
+    private func indexPriority() -> Int? {
         for (index, sign) in elements.enumerated() {
             if sign == "x" || sign == "÷" {
                 return index
@@ -123,8 +124,8 @@ class Arithmetic {
     
     /// If hasCalculPriority is not nil, the function execut calculation priorities at first before the calculation's rest.
     private func calculPriorityOperation() {
-        while hasCalculPriority() != nil {
-            guard let operandIndex = hasCalculPriority() else { return }
+        while indexPriority() != nil {
+            guard let operandIndex = indexPriority() else { return }
             calculOperation(leftIndex: operandIndex - 1, operandIndex: operandIndex, rightIndex: operandIndex + 1)
         }
     }
@@ -136,6 +137,7 @@ class Arithmetic {
         }
     }
     
+    /// Main function for all calcul.
     private func calculOperation(leftIndex: Int, operandIndex: Int,  rightIndex: Int) {
         
         guard let left = Double(operationsToReduce[leftIndex]) else { return }
@@ -148,7 +150,7 @@ class Arithmetic {
             return
         }
         
-        var calcul: Double = 0.0
+        var calcul: Double = 0
         switch operand {
         case "+": calcul = left + right
         case "-": calcul = left - right
@@ -157,13 +159,14 @@ class Arithmetic {
         default: break
         }
         numberFormatter()
-        guard let result = formatter.string(from: NSNumber(value: calcul)) else { return }
+        guard let result = formatter.string(for: calcul) else { return }
         replacePriorityOperationByResult(operandIndex - 1)
         operationsToReduce.insert("\(result)", at: operandIndex - 1)
         calculText = "\(operationsToReduce.first!)"
     }
     
-    func displayResult(){
+    /// Function start the calcul
+    func displayResult() {
         guard expressionIsCorrect else {
             delegate?.throwAlert(message: "Please enter a correct expression.")
             return  }
@@ -176,23 +179,47 @@ class Arithmetic {
         while operationsToReduce.count >= 3 {
             calculOperation( leftIndex: 0, operandIndex: 1, rightIndex: 2)
         }
+        expressionHaveResult = true
     }
     
+    /// Basic function to insert the percentage operations.
     func displayPercent() {
         guard expressionIsCorrect else{
             delegate?.throwAlert(message: "Please enter a correct expression.")
             return  }
+        guard elements.count <= 3 else{
+            delegate?.throwAlert(message: "Percentage result is only for basic expression.")
+            return  }
+        var operationsToPercent = elements
+        if operationsToPercent.count == 1 {
+            guard let number = Double(operationsToPercent[0]) else { return }
+            calculText = "\(number * 0.01)"
+            return
+        }
+        
+        guard let left = Double(operationsToPercent[operationsToPercent.count - 3]) else { return }
+        let operand = operationsToPercent[operationsToPercent.count - 2]
+        guard let right = Double(operationsToPercent[operationsToPercent.count - 1]) else { return }
+        
+        if operand == "÷" && right == 0 {
+            operationsToPercent.removeAll()
+            calculText = "Error"
+            return
+        }
+        
+        var calcul: Double = left / 100 * right
+        if operand == "x" || operand == "÷" {
+            calcul = right / 100
+        }
+        numberFormatter()
+        guard let result = formatter.string(for: calcul) else { return }
+        guard let sizeString = elements.last?.count else { return }
+        for _ in 0 ..< sizeString {
+            calculText.removeLast()
+        }
+        calculText.append(result)
         if expressionHaveEnoughElement {
             displayResult()
         }
-        var operationsToPercent = elements
-        guard let number = Double(operationsToPercent[0]) else { return }
-        
-        numberFormatter()
-        guard let result = formatter.string(for: number * 0.01) else { return }
-        
-        operationsToPercent = Array(operationsToPercent.dropFirst(3))
-        operationsToPercent.insert("\(result)", at: 0)
-        calculText = "\(operationsToPercent.first!)"
     }
 }
